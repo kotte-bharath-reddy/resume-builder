@@ -1,0 +1,7 @@
+huggingface_hub
+dotenv
+pymupdf
+langchain
+langchain-community
+langchain-huggingface
+pyautogen
