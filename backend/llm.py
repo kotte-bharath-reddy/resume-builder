@@ -1,11 +1,19 @@
-from huggingface_hub import InferenceClient
+from langchain_huggingface import HuggingFaceEndpoint
+from langchain_huggingface.chat_models import ChatHuggingFace
+
 import os
 from dotenv import load_dotenv
-
 load_dotenv()
 
-api_key = os.getenv("HUGGINGFACE_API_KEY")
+api_key = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 
-def get_huggingface_client(model: str = "meta-llama/Meta-Llama-3-8B-Instruct"):
-    """Return a Hugging Face Inference client for the given model"""
-    return InferenceClient(model=model, token=api_key)
+def get_huggingface_chat(model: str = "meta-llama/Meta-Llama-3-8B-Instruct"):
+    """Return a LangChain ChatModel for Hugging Face Inference API"""
+    llm = HuggingFaceEndpoint(
+        repo_id=model,
+        task="conversational",  # ✅ Important
+        huggingfacehub_api_token=api_key,
+        temperature=0.3,
+        max_new_tokens=2048,
+    )
+    return ChatHuggingFace(llm=llm)
