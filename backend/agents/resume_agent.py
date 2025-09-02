@@ -1,8 +1,7 @@
 # backend/agents.py
 import fitz
-from langchain.prompts import PromptTemplate
-from .llm import get_huggingface_chat
-from .prompt import SEGREGATE_PROMPT
+from ..llm import get_huggingface_chat
+from ..prompt import SEGREGATE_PROMPT
 from langchain.prompts import ChatPromptTemplate
 
 
@@ -20,3 +19,5 @@ def segregate_resume_with_llm(raw_text: str) -> str:
     chain = prompt | llm
     response = chain.invoke({"resume_text": raw_text})
     return response.content 
+
+
