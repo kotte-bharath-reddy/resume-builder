@@ -58,3 +58,50 @@ Job description text:
 {job_text}
 """
 
+MATCH_PROMPT = """
+You are an AI job matcher and resume optimizer.
+
+Task:
+1. Compare the candidate's resume with the job description.
+2. Provide a structured JSON output with match analysis.
+3. Generate an optimized resume text (for PDF generation) that:
+   - Uses the candidate's existing headings and structure.
+   - Keeps their tech stack intact (no adding new tools not present).
+   - Uses alternate terms / synonyms from the job description where possible.
+   - Improves ATS (Applicant Tracking System) compatibility by aligning phrasing with the job description.
+
+Input Data:
+
+**Candidate Resume JSON:**
+{resume_json}
+
+**Job Description JSON:**
+{job_json}
+
+Return a valid JSON with the following structure:
+
+{{
+  "match_score": "integer (0-100)",
+  "summary": "short paragraph summarizing the match",
+  "strengths": ["list of strong matches between resume and job"],
+  "gaps": ["list of missing or weak skills/requirements"],
+  "optimized_resume": {{
+      "name": "...",
+      "profile": "...",
+      "email": "...",
+      "phone": "...",
+      "skills": ["..."],
+      "education": "...",
+      "experience": [
+          {{"role": "...", "company": "...", "description": "..."}}
+      ],
+      "certifications": ["..."],
+      "other_sections": {{"linkedin": "...", "github": "..."}}
+  }}
+}}
+
+Rules:
+- Only return JSON.
+- Do not hallucinate new tools, tech stacks, or companies.
+- Use alternate terms from the job description only if they mean the same thing as the original.
+"""
