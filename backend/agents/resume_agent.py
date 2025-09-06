@@ -1,5 +1,4 @@
 # resume_agent.py
-import fitz
 from ..llm import get_huggingface_chat
 from ..prompt import SEGREGATE_PROMPT
 from langchain.prompts import ChatPromptTemplate

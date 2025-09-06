@@ -1,41 +1,58 @@
 # prompt.py
 SEGREGATE_PROMPT = """
-You are an expert resume parser. I will give you the raw text of a resume. The raw text may contain the paragraphs repeated. 
-Your job is to put them in the suitable sections.
-Your task is to structure it into the following JSON fields:
+You are an expert resume parser.
 
-- name
-- profile
-- email
-- phone
-- skills (list)
-- education
-- experience
-- certifications (if any)
+Task:
+- Read the raw text of a resume.
+- Remove duplicate paragraphs if any.
+- Structure the content strictly into JSON with the following fields:
 
+{{
+  "name": string,
+  "profile": string,
+  "email": string,
+  "phone": string,
+  "linkedin": string or null,
+  "github": string or null,
+  "skills": [list of strings],
+  "education": [list of objects with institution, degree, duration, location, cgpa if available],
+  "experience": [list of objects with company, position, duration, location, technologies, projects],
+  "certifications": [list of objects with title, issuer, type],
+  "hobbies": string or null,
+  "location": string or null,
+  "other_links": [list of strings],
+  "other": {{any other sections found in resume or null}}
+}}
 
-Also add if there are any other sections and their conent in the resume. There might also be linkedin/github links. get them too
-Only return valid JSON.
+Important rules:
+1. Only return valid JSON.
+2. Do NOT include explanations, notes, or any text outside JSON.
+3. For missing fields, use null or empty lists as appropriate.
+
 Resume text:
 {resume_text}
 """
 
 JOB_EXTRACT_PROMPT = """
-You are an expert job description parser. 
-Your task is to extract the following fields from the given job description text:
+You are an expert job description parser.
 
-- job_title (string)
-- company_name (string)
-- location (string)
-- responsibilities (list of strings)
-- required_skills (list of strings)
-- preferred_skills (list of strings)
-- qualifications (string)
-- experience_required (string)
-- employment_type (string)
-- salary (string)
-- other_benefits (list of strings)
-- job_url (string)
+Task:
+- Extract the following fields strictly into JSON from the given job description:
+
+{{
+  "job_title": string,
+  "company_name": string,
+  "location": string,
+  "responsibilities": [list of strings],
+  "required_skills": [list of strings],
+  "preferred_skills": [list of strings],
+  "qualifications": string,
+  "experience_required": string,
+  "employment_type": string,
+  "salary": string,
+  "other_benefits": [list of strings],
+  "job_url": string
+}}
 
 Example output:
 
@@ -54,7 +71,11 @@ Example output:
   "job_url": "https://linkedin.com/jobs/view/..."
 }}
 
-**Only return valid JSON**. Do not include extra characters or explanations.
+Important rules:
+1. Only return valid JSON.
+2. Do NOT include explanations, notes, or extra text outside the JSON.
+3. Use empty lists or null if data is missing.
+4. Ensure JSON is valid and parsable.
 
 Job description text:
 {job_text}

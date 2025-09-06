@@ -1,4 +1,6 @@
 .env
 /.venv
-test.py
+resume_test.py
 Bharath-Kumar-Reddy-Kotte-Resume-GenAI.pdf
+job_test.py
+match_test.py

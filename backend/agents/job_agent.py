@@ -162,7 +162,7 @@ def merge_job_json(chunk_outputs: list[str]) -> dict:
 # -----------------------------
 def parse_job_with_llm(
     job_text: str,
-    temperature: float = 0.3,
+    temperature: float = 0.4,
     max_new_tokens: int = 2048
 ) -> dict:
     """
