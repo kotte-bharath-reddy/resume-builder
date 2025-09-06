@@ -7,3 +7,5 @@ langchain-huggingface
 pyautogen
 BeautifulSoup4
 selenium
+pdfplumber
+unstructured

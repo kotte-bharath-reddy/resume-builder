@@ -1,5 +1,7 @@
+# prompt.py
 SEGREGATE_PROMPT = """
-You are an expert resume parser. I will give you the raw text of a resume. 
+You are an expert resume parser. I will give you the raw text of a resume. The raw text may contain the paragraphs repeated. 
+Your job is to put them in the suitable sections.
 Your task is to structure it into the following JSON fields:
 
 - name
