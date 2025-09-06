@@ -28,9 +28,17 @@ def extract_text_from_pdf(pdf_path: str) -> str:
     with pdfplumber.open(pdf_path) as pdf:
         return "\n".join(page.extract_text() or "" for page in pdf.pages)
 
-        
-def segregate_resume_with_llm(raw_text: str) -> str:
-    llm = get_huggingface_chat()
+
+def segregate_resume_with_llm(
+    raw_text: str,
+    temperature: float = 0.3,
+    max_new_tokens: int = 2048
+) -> str:
+    """Use LLM to structure resume text into sections."""
+    llm = get_huggingface_chat(
+        temperature=temperature,
+        max_new_tokens=max_new_tokens
+    )
     prompt = ChatPromptTemplate.from_template(SEGREGATE_PROMPT)
     chain = prompt | llm
     response = chain.invoke({"resume_text": raw_text})

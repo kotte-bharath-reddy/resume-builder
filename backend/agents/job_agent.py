@@ -160,16 +160,19 @@ def merge_job_json(chunk_outputs: list[str]) -> dict:
 # -----------------------------
 # Step 5: LLM parsing
 # -----------------------------
-def parse_job_with_llm(job_text: str, model: str = "meta-llama/Meta-Llama-3-8B-Instruct") -> dict:
+def parse_job_with_llm(
+    job_text: str,
+    temperature: float = 0.3,
+    max_new_tokens: int = 2048
+) -> dict:
     """
     Parse job description into structured JSON using LLM.
     Handles long texts by chunking and merges outputs.
-    
-    Args:
-        job_text (str): The raw scraped job text
-        model (str): HuggingFace model ID (default: Llama-3-8B)
     """
-    llm = get_huggingface_chat(model=model)
+    llm = get_huggingface_chat(
+        temperature=temperature,
+        max_new_tokens=max_new_tokens
+    )
     prompt = ChatPromptTemplate.from_template(JOB_EXTRACT_PROMPT)
     chain = prompt | llm
 
